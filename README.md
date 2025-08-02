@@ -10,7 +10,7 @@ With this mod, you can choose which type of **wolves** and **bears** spawn in ea
 - Make certain regions **safe zones** for long-term survival or base-building.
 - Crank up difficulty by mixing **challenge bears with timberwolves and cougars**.
 - Create **custom regional profiles** for immersive or thematic playthroughs.
-- Or just enjoy the peaceful silence after removing every last goddamn predator.
+- Or just enjoy the peaceful silence after removing every last predator.
 
 ---
 
