@@ -12,7 +12,7 @@ With this mod, you can choose which type of **wolves** and **bears** spawn in ea
 - Choose **one wolf type per region**:
   - **Regular Wolves**
   - **Timberwolves**
-  - **Poisoned Wolves** (e.g. from Winter’s Embrace event)
+  - **Poisoned Wolves**
   - **No Wolves**
   
 ### Bears
