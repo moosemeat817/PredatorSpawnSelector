@@ -51,7 +51,7 @@ Disabling individual cougar territories works as follows:
 ## ⚠️ Important Usage Notes
 
 - After enabling or disabling any settings:
-  - **Start a new game** or **load an existing save** to ensure all changes are applied correctly.
+  - **Start a new game** or **reload an existing save** to ensure all changes are applied correctly.
 - If you **re-enable** a previously disabled cougar territory:
   - You must **reload the game** (restart from main menu or reload a save) for the change to take effect.
 
@@ -59,7 +59,9 @@ Disabling individual cougar territories works as follows:
 
 ## 📦 Compatibility
 
-This mod is designed to be compatible with most other mods. It was previously known as **Remove Cougars**, now merged and expanded into this all-in-one predator customization tool.
+This mod contains previosly stand-alone mods. - **Remove Cougars** and **Timberwolves Anywhere**
+
+**IF YOU HAVE EITHER OF THOSE MODS INSTALLED PLEASE REMOVE THEM BEFORE USING THIS MOD**
 
 ---
 
