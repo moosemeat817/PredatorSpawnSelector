@@ -41,8 +41,6 @@ Disabling individual cougar territories works as follows:
 - **Disable Territory 3**:  
   → Only Territory 3 is disabled.
 
-This cascading behavior is intentional to prevent broken or partial cougar logic.
-
 ---
 
 ## ⚠️ Important Usage Notes
