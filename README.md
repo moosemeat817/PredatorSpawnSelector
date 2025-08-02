@@ -1,6 +1,6 @@
 # Predator Spawn Selector
 
-⚠️ This mod replaces both **Remove Cougars** and **Timberwolves Anywhere**. Remove those before using.  ⚠️
+⚠️ This mod replaces both **REMOVE COUGARS** and **TIMBERWOLVES ANYWHERE**.  Remove if you have either.  ⚠️
 
 
 **Predator Spawn Selector** is a customizable wildlife control mod for *The Long Dark* that gives you full region-by-region control over hostile predators.
