@@ -18,7 +18,7 @@ With this mod, you can choose which type of **wolves** and **bears** spawn in ea
 ### Bears
 - Choose **one bear type per region**:
   - **Standard Bears**
-  - **Challenge Bears** (e.g. from story mode and events)
+  - **Challenge Bears**
   - **No Bears**
 
 ### Cougars
