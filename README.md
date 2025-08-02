@@ -4,6 +4,11 @@
 
 With this mod, you can choose which type of **wolves** and **bears** spawn in each region — or remove them entirely. You can also selectively **disable cougar territories** using built-in rules. This allows you to tailor the level of danger and survival challenge across Great Bear Island.
 
+- Make certain regions **safe zones** for long-term survival or base-building.
+- Crank up difficulty by mixing **challenge bears with timberwolves and cougars**.
+- Create **custom regional profiles** for immersive or thematic playthroughs.
+- Or just enjoy the peaceful silence after removing every last goddamn predator.
+
 ---
 
 ## 🔧 Features
@@ -58,9 +63,18 @@ This mod is designed to be compatible with most other mods. It was previously kn
 
 ---
 
-## 🧊 Why Use Predator Spawn Selector?
+## 🧱 Requirements
 
-- Make certain regions **safe zones** for long-term survival or base-building.
-- Crank up difficulty by mixing **challenge bears with timberwolves and cougars**.
-- Create **custom regional profiles** for immersive or thematic playthroughs.
-- Or just enjoy the peaceful silence after removing every last goddamn predator.
+- [ModSettings](https://github.com/zeobviouslyfakeacc/ModSettings)
+
+---
+
+## 🙏 Special Thanks
+
+- The Long Dark Modding Community (Discord)
+
+---
+
+
+If you enjoy using this mod, feel free to buy me a cup of coffee.  Thank you!
+https://ko-fi.com/moosemeat817
