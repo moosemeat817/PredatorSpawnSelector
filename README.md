@@ -20,6 +20,8 @@ With this mod, you can choose which type of **wolves** and **bears** spawn in ea
 - Toggle to remove all regular wolves **across Great Bear Island**.
 - Toggle to remove all timberwolves **across Great Bear Island**.
 - Toggle to remove all starving wolves.
+
+  NOTE: This does not disable other wolves that have been set to a different type below.  (Example- If you toggle off all timberwolves, but have regular wolves set to timberwolves in a particular region, then the timberwolves in that particular region will still spawn.) 
   
 - Choose **one wolf type per region**:
   - **Regular Wolves**
