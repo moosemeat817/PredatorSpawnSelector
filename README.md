@@ -60,8 +60,6 @@ Disabling individual cougar territories works as follows:
 
 - After enabling or disabling any settings:
   - **Start a new game** or **reload an existing save** to ensure all changes are applied correctly.
-- If you **re-enable** a previously disabled cougar territory:
-  - You must **reload the game** (restart from main menu or reload a save) for the change to take effect.
 
 ---
 
