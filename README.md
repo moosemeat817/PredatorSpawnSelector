@@ -26,7 +26,7 @@ With this mod, you can choose which type of **wolves** and **bears** spawn in ea
 - Choose **one wolf type per region**:
   - **Regular Wolves**
   - **Timberwolves**
-  - **Poisoned Wolves**
+  - **Starving Wolves**
   - **No Wolves**
   
 ### Bears
