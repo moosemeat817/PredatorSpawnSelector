@@ -17,6 +17,10 @@ With this mod, you can choose which type of **wolves** and **bears** spawn in ea
 ## 🔧 Features
 
 ### Wolves
+- Toggle to remove all regular wolves **across Great Bear Island**.
+- Toggle to remove all timberwolves **across Great Bear Island**.
+- Toggle to remove all starving wolves.
+  
 - Choose **one wolf type per region**:
   - **Regular Wolves**
   - **Timberwolves**
@@ -24,13 +28,14 @@ With this mod, you can choose which type of **wolves** and **bears** spawn in ea
   - **No Wolves**
   
 ### Bears
+- Toggle to remove all bears **across Great Bear Island**.
 - Choose **one bear type per region**:
   - **Standard Bears**
   - **Challenge Bears**
   - **No Bears**
 
 ### Cougars
-- Cougars can only be **enabled or disabled**.
+- Toggle to remove all cougars **across Great Bear Island**.
 - Each cougar-enabled region contains **three cougar territories**.
 - **Disabling cougar territories follows specific rules** (see below).
 
