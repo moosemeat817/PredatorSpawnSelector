@@ -3,7 +3,7 @@
 ⚠️ This mod replaces both **REMOVE COUGARS** and **TIMBERWOLVES ANYWHERE**.  Remove if you have either.  ⚠️
 
 
-**Predator Spawn Selector** is a customizable wildlife control mod for *The Long Dark* that gives you full region-by-region control and full isalnd control over hostile predators.
+**Predator Spawn Selector** is a customizable wildlife control mod for *The Long Dark* that gives you full region-by-region control and full island control over hostile predators.
 
 With this mod, you can choose which type of **wolves** and **bears** spawn in each region — or remove them entirely. You can also selectively **disable cougar territories** using built-in rules. This allows you to tailor the level of danger and survival challenge across Great Bear Island.
 
