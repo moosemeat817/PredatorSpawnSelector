@@ -67,7 +67,7 @@ Disabling individual cougar territories works as follows:
 
 ## 🧱 Requirements
 
-- [ModSettings](https://github.com/zeobviouslyfakeacc/ModSettings)
+- [ModSettings](https://github.com/DigitalzombieTLD/ModSettings/releases/download/v2.1.0/ModSettings.dll)
 
 ---
 
