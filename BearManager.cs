@@ -1,4 +1,5 @@
 ﻿using Il2Cpp;
+using Il2CppTLD.AI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -99,6 +100,9 @@ internal static class BearManager
             case BearSpawnType.ChallengeBears:
                 MakeChallengeBears(spawnRegion);
                 break;
+            case BearSpawnType.AuroraBears:
+                MakeAuroraBears(spawnRegion);
+                break;
             case BearSpawnType.None:
                 // Disable the GameObject containing this spawn region
                 spawnRegion.gameObject.SetActive(false);
@@ -124,6 +128,43 @@ internal static class BearManager
         {
             spawnRegion.m_SpawnablePrefab = challengeBear;
             spawnRegion.m_AuroraSpawnablePrefab = challengeBear; // Challenge Bears don't have separate aurora variants
+
+            // Set m_IgnoreCriticalHits to false for challenge bears
+            SetChallengeBearCriticalHits(challengeBear);
+        }
+    }
+
+    private static void MakeAuroraBears(SpawnRegion spawnRegion)
+    {
+        GameObject? auroraBear = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Bear_aurora").WaitForCompletion();
+        if (auroraBear && spawnRegion.m_SpawnablePrefab.name != auroraBear.name)
+        {
+            // Use aurora bears for both normal and aurora spawns
+            spawnRegion.m_SpawnablePrefab = auroraBear;
+            spawnRegion.m_AuroraSpawnablePrefab = auroraBear;
+        }
+    }
+
+    private static void SetChallengeBearCriticalHits(GameObject challengeBear)
+    {
+        try
+        {
+            // Get the AiBearChallengeHunted component
+            AiBearChallengeHunted? challengeHuntedComponent = challengeBear.GetComponent<AiBearChallengeHunted>();
+            if (challengeHuntedComponent != null)
+            {
+                // Set m_IgnoreCriticalHits to false to allow critical hits
+                challengeHuntedComponent.m_IgnoreCriticalHits = false;
+                MelonLoader.MelonLogger.Msg("Set challenge bear to allow critical hits (m_IgnoreCriticalHits = false)");
+            }
+            else
+            {
+                MelonLoader.MelonLogger.Warning("Could not find AiBearChallengeHunted component on challenge bear prefab");
+            }
+        }
+        catch (System.Exception ex)
+        {
+            MelonLoader.MelonLogger.Error($"Error setting challenge bear critical hits: {ex.Message}");
         }
     }
 }

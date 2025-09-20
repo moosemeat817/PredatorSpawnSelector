@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using Il2Cpp;
+using Il2CppTLD.AI;
 using UnityEngine;
 using System.Collections;
 
@@ -35,6 +36,23 @@ internal static class Patches
             else if (__instance.m_AiSubTypeSpawned == AiSubType.Bear)
             {
                 BearManager.AdjustBearToRegionSetting(__instance);
+            }
+        }
+    }
+
+    // Patch to handle challenge bear critical hits when BaseAi starts
+    [HarmonyPatch(typeof(BaseAi), "Start")]
+    internal class BaseAiStart
+    {
+        private static void Postfix(BaseAi __instance)
+        {
+            // Check if this is a challenge bear
+            AiBearChallengeHunted challengeBearComponent = __instance.GetComponent<AiBearChallengeHunted>();
+            if (challengeBearComponent != null)
+            {
+                // Set m_IgnoreCriticalHits to false to allow critical hits on challenge bears
+                __instance.m_IgnoreCriticalHits = false;
+                MelonLoader.MelonLogger.Msg("Challenge bear spawned - enabled critical hits (m_IgnoreCriticalHits = false)");
             }
         }
     }
