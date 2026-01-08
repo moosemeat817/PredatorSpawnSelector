@@ -8,6 +8,10 @@ namespace PredatorSpawnSelector;
 
 internal static class Patches
 {
+    private const float INITIAL_DELAY = 0.5f;  // Initial delay after scene start (seconds)
+    private const float RECHECK_DELAY = 1.0f;  // Delay between rechecks to catch re-enabled regions (seconds)
+    private const int MAX_RECHECKS = 5;        // Maximum number of times to recheck and re-disable
+
     [HarmonyPatch(typeof(SpawnRegion), nameof(SpawnRegion.Deserialize))]
     internal class OnlyTimberwolvesDeserialize
     {
@@ -15,10 +19,12 @@ internal static class Patches
         {
             if (__instance.m_AiSubTypeSpawned == AiSubType.Wolf)
             {
+                MelonLoader.MelonLogger.Msg($"[Deserialize] Wolf SpawnRegion found: {__instance.gameObject.name}");
                 WolfManager.AdjustToRegionSetting(__instance);
             }
             else if (__instance.m_AiSubTypeSpawned == AiSubType.Bear)
             {
+                MelonLoader.MelonLogger.Msg($"[Deserialize] Bear SpawnRegion found: {__instance.gameObject.name}");
                 BearManager.AdjustBearToRegionSetting(__instance);
             }
         }
@@ -31,10 +37,12 @@ internal static class Patches
         {
             if (__instance.m_AiSubTypeSpawned == AiSubType.Wolf)
             {
+                MelonLoader.MelonLogger.Msg($"[SpawnRegion.Start] Wolf SpawnRegion started: {__instance.gameObject.name}");
                 WolfManager.AdjustToRegionSetting(__instance);
             }
             else if (__instance.m_AiSubTypeSpawned == AiSubType.Bear)
             {
+                MelonLoader.MelonLogger.Msg($"[SpawnRegion.Start] Bear SpawnRegion started: {__instance.gameObject.name}");
                 BearManager.AdjustBearToRegionSetting(__instance);
             }
         }
@@ -52,7 +60,7 @@ internal static class Patches
             {
                 // Set m_IgnoreCriticalHits to false to allow critical hits on challenge bears
                 __instance.m_IgnoreCriticalHits = false;
-                MelonLoader.MelonLogger.Msg("Challenge bear spawned - enabled critical hits (m_IgnoreCriticalHits = false)");
+                MelonLoader.MelonLogger.Msg($"[BaseAi.Start] Challenge bear spawned - enabled critical hits: {__instance.gameObject.name}");
             }
         }
     }
@@ -63,6 +71,8 @@ internal static class Patches
     {
         private static void Postfix()
         {
+            MelonLoader.MelonLogger.Msg("[GameManager.Awake] Scene awake - starting animal handling");
+
             // Handle cougar territories when scene loads
             CougarManager.HandleCougarTerritoriesForCurrentScene();
 
@@ -80,18 +90,37 @@ internal static class Patches
     {
         private static void Postfix()
         {
-            // Handle cougar territories, bear spawn regions, and wolf spawn regions again after scene is fully started
+            MelonLoader.MelonLogger.Msg("[GameManager.Start] Scene started - scheduling delayed animal handling");
+
+            // Handle cougar territories, bear spawn regions, and wolf spawn regions with delays
             // This ensures all GameObjects are properly loaded before we try to disable them
             MelonLoader.MelonCoroutines.Start(DelayedAnimalHandling());
         }
 
         private static IEnumerator DelayedAnimalHandling()
         {
-            // Wait a frame to ensure all objects are fully loaded
-            yield return null;
+            // Initial delay to allow all objects to fully load
+            MelonLoader.MelonLogger.Msg($"[DelayedAnimalHandling] Waiting {INITIAL_DELAY} seconds for initial scene load...");
+            yield return new WaitForSeconds(INITIAL_DELAY);
+
+            MelonLoader.MelonLogger.Msg("[DelayedAnimalHandling] Performing initial animal handling");
             CougarManager.HandleCougarTerritoriesForCurrentScene();
             BearManager.HandleBearSpawnRegionsForCurrentScene();
             WolfManager.HandleWolfSpawnRegionsForCurrentScene();
+
+            // Rechecks to catch any regions that might have been re-enabled by randomizers
+            for (int i = 0; i < MAX_RECHECKS; i++)
+            {
+                MelonLoader.MelonLogger.Msg($"[DelayedAnimalHandling] Waiting {RECHECK_DELAY} seconds before recheck {i + 1}/{MAX_RECHECKS}...");
+                yield return new WaitForSeconds(RECHECK_DELAY);
+
+                MelonLoader.MelonLogger.Msg($"[DelayedAnimalHandling] Performing recheck {i + 1}/{MAX_RECHECKS}");
+                CougarManager.HandleCougarTerritoriesForCurrentScene();
+                BearManager.HandleBearSpawnRegionsForCurrentScene();
+                WolfManager.HandleWolfSpawnRegionsForCurrentScene();
+            }
+
+            MelonLoader.MelonLogger.Msg("[DelayedAnimalHandling] Completed all animal handling checks");
         }
     }
 
@@ -101,12 +130,15 @@ internal static class Patches
         GameObject go = GameObject.Find(objectPath);
         if (go != null)
         {
+            bool wasActive = go.activeSelf;
             go.SetActive(false);
-            MelonLoader.MelonLogger.Msg($"Successfully disabled {territoryName} at {objectPath}");
+            MelonLoader.MelonLogger.Msg($"[SafeDisable] Successfully disabled {territoryName}");
+            MelonLoader.MelonLogger.Msg($"  Path: {objectPath}");
+            MelonLoader.MelonLogger.Msg($"  Was Active: {wasActive} | Now Active: {go.activeSelf}");
         }
         else
         {
-            MelonLoader.MelonLogger.Warning($"Could not find {territoryName} at {objectPath}");
+            MelonLoader.MelonLogger.Warning($"[SafeDisable] Could not find {territoryName} at path: {objectPath}");
         }
     }
 }

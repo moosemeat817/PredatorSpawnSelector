@@ -25,15 +25,15 @@ internal sealed class Settings : JsonModSettings
 
     // ALL REGIONS
     [Name("**Disable All Regular Wolf Spawns")]
-    [Description("Disables Regular Wolves in all regions.  This setting overrides the regional settings below")]
+    [Description("Disables Regular Wolves in all regions.  This setting overrides the regional settings below.  NOTE: This does not disable other wolves that have been set to a different type below.")]
     public bool disableAllRegularWolves = false;
 
     [Name("**Disable All Timberwolf Spawns")]
-    [Description("Disables Timberwolves in all regions.  This setting overrides the regional settings below")]
+    [Description("Disables Timberwolves in all regions.  This setting overrides the regional settings below.  NOTE: This does not disable other wolves that have been set to a different type below.")]
     public bool disableAllTimberWolves = false;
 
     [Name("**Disable All Starving Wolf Spawns")]
-    [Description("Disables Starving Wolves in all regions.  This setting overrides the regional settings below")]
+    [Description("Disables Starving Wolves in all regions.  This setting overrides the regional settings below.  NOTE: This does not disable other wolves that have been set to a different type below.")]
     public bool disableAllStarvingWolves = false;
 
     [Name("**Regular Wolf Percentage (to Timberwolves)")]
@@ -42,114 +42,114 @@ internal sealed class Settings : JsonModSettings
     public float regularWolfPercentage = 50f;
 
     [Name("Ash Canyon")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType ashCanyonWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType ashCanyonWolves = WolfSpawnType.Default;
 
     [Name("Blackrock")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType blackRockWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType blackRockWolves = WolfSpawnType.Default;
 
     [Name("Blackrock Prison")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType blackRockPrisonWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType blackRockPrisonWolves = WolfSpawnType.Default;
 
     [Name("Bleak Inlet")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType bleakInletWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType bleakInletWolves = WolfSpawnType.Default;
 
     [Name("Bleak Inlet Workshop")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType bleakInletWorkshopWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType bleakInletWorkshopWolves = WolfSpawnType.Default;
 
     [Name("Broken Railroad")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType brokenRailroadWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType brokenRailroadWolves = WolfSpawnType.Default;
 
     [Name("Coastal Highway")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType coastalHighwayWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType coastalHighwayWolves = WolfSpawnType.Default;
 
     [Name("Crumbling Highway")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType crumblingHighwayWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType crumblingHighwayWolves = WolfSpawnType.Default;
 
     [Name("Desolation Point")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType desolationPointWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType desolationPointWolves = WolfSpawnType.Default;
 
     [Name("Desolation Point Cave")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType desolationPointCaveWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType desolationPointCaveWolves = WolfSpawnType.Default;
 
     [Name("Far Range Branch Line")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType farRangeBranchLineWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType farRangeBranchLineWolves = WolfSpawnType.Default;
 
     [Name("Forlorn Muskeg")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType forlornMuskegWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType forlornMuskegWolves = WolfSpawnType.Default;
 
     [Name("Forsaken Airfield")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType forsakenAirfieldWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType forsakenAirfieldWolves = WolfSpawnType.Default;
 
     [Name("Hushed River Valley")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType hushedRiverValleyWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType hushedRiverValleyWolves = WolfSpawnType.Default;
 
     [Name("Keeper's Pass")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType keepersPassWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType keepersPassWolves = WolfSpawnType.Default;
 
     [Name("Mining Region")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType miningRegionWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType miningRegionWolves = WolfSpawnType.Default;
 
     [Name("Sundered Pass")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType mountainPassWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType mountainPassWolves = WolfSpawnType.Default;
 
     [Name("Mountain Town")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType mountainTownWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType mountainTownWolves = WolfSpawnType.Default;
 
     [Name("Mystery Lake")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType mysteryLakeWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType mysteryLakeWolves = WolfSpawnType.Default;
 
     [Name("Pleasant Valley")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType pleasantValleyWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType pleasantValleyWolves = WolfSpawnType.Default;
 
     [Name("Timberwolf Mountain")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType timberwolfMountainWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType timberwolfMountainWolves = WolfSpawnType.Default;
 
     [Name("Winding River")]
-    [Description(Implementation.settingDescription)]
-    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Random", "None")]
-    public SpawnType windingRiverWolves = SpawnType.Default;
+    [Description("Choose the type of wolves that spawn in this region")]
+    [Choice("Default", "Timberwolves", "Regular Wolves", "Starving Wolves", "Aurora Timberwolves", "Aurora Regular Wolves", "Aurora Starving Wolves", "Random", "None")]
+    public WolfSpawnType windingRiverWolves = WolfSpawnType.Default;
 
     [Section("Bear Settings")]
 
@@ -160,82 +160,82 @@ internal sealed class Settings : JsonModSettings
 
     [Name("Ash Canyon Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType ashCanyonBears = BearSpawnType.RegularBears;
 
     [Name("Blackrock Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType blackRockBears = BearSpawnType.RegularBears;
 
     [Name("Blackrock Prison Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType blackRockPrisonBears = BearSpawnType.RegularBears;
 
     [Name("Bleak Inlet Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType bleakInletBears = BearSpawnType.RegularBears;
 
     [Name("Broken Railroad Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType brokenRailroadBears = BearSpawnType.RegularBears;
 
     [Name("Coastal Highway Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType coastalHighwayBears = BearSpawnType.RegularBears;
 
     [Name("Desolation Point Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType desolationPointBears = BearSpawnType.RegularBears;
 
     [Name("Forlorn Muskeg Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType forlornMuskegBears = BearSpawnType.RegularBears;
 
     [Name("Forsaken Airfield Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType forsakenAirfieldBears = BearSpawnType.RegularBears;
 
     [Name("Hushed River Valley Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType hushedRiverValleyBears = BearSpawnType.RegularBears;
 
     [Name("Mining Region Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType miningRegionBears = BearSpawnType.RegularBears;
 
     [Name("Sundered Pass Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType mountainPassBears = BearSpawnType.RegularBears;
 
     [Name("Mountain Town Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType mountainTownBears = BearSpawnType.RegularBears;
 
     [Name("Mystery Lake Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType mysteryLakeBears = BearSpawnType.RegularBears;
 
     [Name("Pleasant Valley Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType pleasantValleyBears = BearSpawnType.RegularBears;
 
     [Name("Timberwolf Mountain Bears")]
     [Description("Choose the type of bears that spawn in this region")]
-    [Choice("Regular Bears", "Challenge Bears", "None")]
+    [Choice("Regular Bears", "Challenge Bears", "Aurora Bears", "None")]
     public BearSpawnType timberwolfMountainBears = BearSpawnType.RegularBears;
 
     [Section("Cougar Settings")]
