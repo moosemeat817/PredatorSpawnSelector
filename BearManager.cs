@@ -1,7 +1,6 @@
 ﻿using Il2Cpp;
 using Il2CppTLD.AI;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace PredatorSpawnSelector;
 
@@ -9,7 +8,7 @@ internal static class BearManager
 {
     internal static void AdjustBearToRegionSetting(SpawnRegion spawnRegion)
     {
-        MelonLoader.MelonLogger.Msg($"[BearManager.AdjustBearToRegionSetting] Processing region: {spawnRegion.gameObject.name} in scene: {GameManager.m_ActiveScene}");
+        //MelonLoader.MelonLogger.Msg($"[BearManager.AdjustBearToRegionSetting] Processing region: {spawnRegion.gameObject.name} in scene: {GameManager.m_ActiveScene}");
 
         switch (GameManager.m_ActiveScene)
         {
@@ -62,7 +61,7 @@ internal static class BearManager
                 SetBearType(spawnRegion, Settings.instance.forsakenAirfieldBears);
                 break;
             default:
-                MelonLoader.MelonLogger.Warning($"[BearManager.AdjustBearToRegionSetting] Unknown Bear Region ({GameManager.m_ActiveScene}) - no changes applied");
+                //MelonLoader.MelonLogger.Warning($"[BearManager.AdjustBearToRegionSetting] Unknown Bear Region ({GameManager.m_ActiveScene}) - no changes applied");
                 break;
         }
     }
@@ -70,16 +69,16 @@ internal static class BearManager
     // Handle all bear spawn regions for the current scene
     internal static void HandleBearSpawnRegionsForCurrentScene()
     {
-        MelonLoader.MelonLogger.Msg($"[BearManager.HandleBearSpawnRegionsForCurrentScene] Starting bear spawn region handling for scene: {GameManager.m_ActiveScene}");
+        //MelonLoader.MelonLogger.Msg($"[BearManager.HandleBearSpawnRegionsForCurrentScene] Starting bear spawn region handling for scene: {GameManager.m_ActiveScene}");
 
         if (Settings.instance.disableAllBears)
         {
             int disabledCount = DisableAllBearSpawnRegions();
-            MelonLoader.MelonLogger.Msg($"[BearManager.HandleBearSpawnRegionsForCurrentScene] Total bear regions disabled: {disabledCount}");
+            //MelonLoader.MelonLogger.Msg($"[BearManager.HandleBearSpawnRegionsForCurrentScene] Total bear regions disabled: {disabledCount}");
         }
         else
         {
-            MelonLoader.MelonLogger.Msg("[BearManager.HandleBearSpawnRegionsForCurrentScene] Bear disabling is not enabled, skipping");
+            //MelonLoader.MelonLogger.Msg("[BearManager.HandleBearSpawnRegionsForCurrentScene] Bear disabling is not enabled, skipping");
         }
     }
 
@@ -89,17 +88,17 @@ internal static class BearManager
         SpawnRegion[] allSpawnRegions = Resources.FindObjectsOfTypeAll<SpawnRegion>();
         int disabledCount = 0;
 
-        MelonLoader.MelonLogger.Msg($"[DisableAllBearSpawnRegions] Searching through {allSpawnRegions.Length} SpawnRegions");
+        //MelonLoader.MelonLogger.Msg($"[DisableAllBearSpawnRegions] Searching through {allSpawnRegions.Length} SpawnRegions");
 
         foreach (SpawnRegion spawnRegion in allSpawnRegions)
         {
             // Check if this spawn region is for bears
             if (spawnRegion.m_AiSubTypeSpawned == AiSubType.Bear)
             {
-                bool wasActive = spawnRegion.gameObject.activeSelf;
-                spawnRegion.gameObject.SetActive(false);
+                //bool wasActive = spawnRegion.gameObject.activeSelf;
+                RegionStateKeeper.Disable(spawnRegion);
                 disabledCount++;
-                MelonLoader.MelonLogger.Msg($"[DisableAllBearSpawnRegions] Disabled bear spawn region: {spawnRegion.gameObject.name} (Was Active: {wasActive})");
+                //MelonLoader.MelonLogger.Msg($"[DisableAllBearSpawnRegions] Disabled bear spawn region: {spawnRegion.gameObject.name} (Was Active: {wasActive})");
             }
         }
 
@@ -108,7 +107,7 @@ internal static class BearManager
 
     private static void SetBearType(SpawnRegion spawnRegion, BearSpawnType bearType)
     {
-        MelonLoader.MelonLogger.Msg($"[SetBearType] Setting bear type to {bearType} for region: {spawnRegion.gameObject.name}");
+        //MelonLoader.MelonLogger.Msg($"[SetBearType] Setting bear type to {bearType} for region: {spawnRegion.gameObject.name}");
 
         switch (bearType)
         {
@@ -122,71 +121,60 @@ internal static class BearManager
                 MakeAuroraBears(spawnRegion);
                 break;
             case BearSpawnType.None:
-                MelonLoader.MelonLogger.Msg($"[SetBearType] Disabling spawn region: {spawnRegion.gameObject.name}");
-                spawnRegion.gameObject.SetActive(false);
+                //MelonLoader.MelonLogger.Msg($"[SetBearType] Disabling spawn region: {spawnRegion.gameObject.name}");
+                RegionStateKeeper.Disable(spawnRegion);
                 break;
         }
     }
 
     private static void MakeRegularBears(SpawnRegion spawnRegion)
     {
-        GameObject? regularBear = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Bear").WaitForCompletion();
-        GameObject? regularBear_aurora = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Bear_aurora").WaitForCompletion();
-        if (regularBear && regularBear_aurora && spawnRegion.m_SpawnablePrefab.name != regularBear.name)
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.Bear, AnimalRefs.BearAurora, "regular bears"))
         {
-            spawnRegion.m_SpawnablePrefab = regularBear;
-            spawnRegion.m_AuroraSpawnablePrefab = regularBear_aurora;
-            MelonLoader.MelonLogger.Msg($"[MakeRegularBears] Changed {spawnRegion.gameObject.name} to regular bears");
+            //MelonLoader.MelonLogger.Msg($"[MakeRegularBears] Changed {spawnRegion.gameObject.name} to regular bears");
         }
     }
 
     private static void MakeChallengeBears(SpawnRegion spawnRegion)
     {
-        GameObject? challengeBear = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_BearHuntedChallenge").WaitForCompletion();
-        if (challengeBear && spawnRegion.m_SpawnablePrefab.name != challengeBear.name)
+        // Challenge Bears don't have separate aurora variants, so use the same for both
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.BearChallenge, AnimalRefs.BearChallenge, "challenge bears"))
         {
-            spawnRegion.m_SpawnablePrefab = challengeBear;
-            spawnRegion.m_AuroraSpawnablePrefab = challengeBear; // Challenge Bears don't have separate aurora variants
-
-            MelonLoader.MelonLogger.Msg($"[MakeChallengeBears] Changed {spawnRegion.gameObject.name} to challenge bears");
+            //MelonLoader.MelonLogger.Msg($"[MakeChallengeBears] Changed {spawnRegion.gameObject.name} to challenge bears");
 
             // Set m_IgnoreCriticalHits to false for challenge bears
-            SetChallengeBearCriticalHits(challengeBear);
+            SetChallengeBearCriticalHits(spawnRegion);
         }
     }
 
     private static void MakeAuroraBears(SpawnRegion spawnRegion)
     {
-        GameObject? auroraBear = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Bear_aurora").WaitForCompletion();
-        if (auroraBear && spawnRegion.m_SpawnablePrefab.name != auroraBear.name)
+        // Use aurora bears for both normal and aurora spawns
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.BearAurora, AnimalRefs.BearAurora, "aurora bears"))
         {
-            // Use aurora bears for both normal and aurora spawns
-            spawnRegion.m_SpawnablePrefab = auroraBear;
-            spawnRegion.m_AuroraSpawnablePrefab = auroraBear;
-            MelonLoader.MelonLogger.Msg($"[MakeAuroraBears] Changed {spawnRegion.gameObject.name} to aurora bears");
+            //MelonLoader.MelonLogger.Msg($"[MakeAuroraBears] Changed {spawnRegion.gameObject.name} to aurora bears");
         }
     }
 
-    private static void SetChallengeBearCriticalHits(GameObject challengeBear)
+    private static void SetChallengeBearCriticalHits(SpawnRegion spawnRegion)
     {
         try
         {
-            // Get the AiBearChallengeHunted component
-            AiBearChallengeHunted? challengeHuntedComponent = challengeBear.GetComponent<AiBearChallengeHunted>();
-            if (challengeHuntedComponent != null)
+            var list = spawnRegion.m_SpawnList;
+            for (int i = 0; i < list.Count; i++)
             {
-                // Set m_IgnoreCriticalHits to false to allow critical hits
-                challengeHuntedComponent.m_IgnoreCriticalHits = false;
-                MelonLoader.MelonLogger.Msg($"[SetChallengeBearCriticalHits] Set challenge bear {challengeBear.name} to allow critical hits (m_IgnoreCriticalHits = false)");
-            }
-            else
-            {
-                MelonLoader.MelonLogger.Warning($"[SetChallengeBearCriticalHits] Could not find AiBearChallengeHunted component on challenge bear prefab: {challengeBear.name}");
+                GameObject challengeBear = list[i]?.m_Normal?.GetOrLoadTypedAsset()?.gameObject;
+                AiBearChallengeHunted challengeHuntedComponent = challengeBear?.GetComponent<AiBearChallengeHunted>();
+                if (challengeHuntedComponent != null)
+                {
+                    // Set m_IgnoreCriticalHits to false to allow critical hits
+                    challengeHuntedComponent.m_IgnoreCriticalHits = false;
+                }
             }
         }
         catch (System.Exception ex)
         {
-            MelonLoader.MelonLogger.Error($"[SetChallengeBearCriticalHits] Error setting challenge bear critical hits: {ex.Message}");
+            //MelonLoader.MelonLogger.Error($"[SetChallengeBearCriticalHits] Error setting challenge bear critical hits: {ex.Message}");
         }
     }
 }

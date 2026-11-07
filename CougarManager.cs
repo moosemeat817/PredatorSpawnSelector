@@ -10,7 +10,7 @@ internal static class CougarManager
         string sceneName = GameManager.m_ActiveScene;
         if (string.IsNullOrEmpty(sceneName)) return;
 
-        MelonLoader.MelonLogger.Msg($"Handling cougar territories for scene: {sceneName}");
+        //MelonLoader.MelonLogger.Msg($"Handling cougar territories for scene: {sceneName}");
 
         switch (sceneName)
         {
@@ -46,7 +46,7 @@ internal static class CougarManager
                 DisableTimberwolfMountainCougars();
                 break;
             default:
-                MelonLoader.MelonLogger.Msg($"No cougar handling implementation for scene: {sceneName}");
+                //MelonLoader.MelonLogger.Msg($"No cougar handling implementation for scene: {sceneName}");
                 break;
         }
     }

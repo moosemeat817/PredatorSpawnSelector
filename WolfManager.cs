@@ -1,13 +1,25 @@
-﻿using Il2Cpp;
+﻿using System.Collections.Generic;
+using Il2Cpp;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace PredatorSpawnSelector;
 
 internal static class WolfManager
 {
+    // Caches the Random roll outcome per SpawnRegion so that repeated calls
+    // (Deserialize + Start both trigger AdjustToRegionSetting for the same region)
+    // don't re-roll and potentially flip the result. Cleared on scene load.
+    private static readonly Dictionary<int, WolfSpawnType> _randomRollCache = new Dictionary<int, WolfSpawnType>();
+
+    internal static void ClearRandomRollCache()
+    {
+        _randomRollCache.Clear();
+    }
+
     internal static void AdjustToRegionSetting(SpawnRegion spawnRegion)
     {
+        //MelonLoader.MelonLogger.Msg($"[WolfManager.AdjustToRegionSetting] Processing region: {spawnRegion.gameObject.name} in scene: {GameManager.m_ActiveScene}");
+
         switch (GameManager.m_ActiveScene)
         {
             case "AshCanyonRegion":
@@ -77,7 +89,7 @@ internal static class WolfManager
                 SetWolfType(spawnRegion, Settings.instance.forsakenAirfieldWolves);
                 break;
             default:
-                MelonLoader.MelonLogger.Warning("Unknown Wolf Region (" + GameManager.m_ActiveScene + ") - no changes applied");
+                //MelonLoader.MelonLogger.Warning($"[WolfManager.AdjustToRegionSetting] Unknown Wolf Region ({GameManager.m_ActiveScene}) - no changes applied");
                 break;
         }
     }
@@ -85,132 +97,214 @@ internal static class WolfManager
     // Handle all wolf spawn regions for the current scene
     internal static void HandleWolfSpawnRegionsForCurrentScene()
     {
+        //MelonLoader.MelonLogger.Msg($"[WolfManager.HandleWolfSpawnRegionsForCurrentScene] Starting wolf spawn region handling for scene: {GameManager.m_ActiveScene}");
+
+        int regularDisabled = 0;
+        int timberDisabled = 0;
+        int starvingDisabled = 0;
+
         if (Settings.instance.disableAllRegularWolves)
         {
-            DisableRegularWolfSpawnRegions();
+            //MelonLoader.MelonLogger.Msg("[WolfManager.HandleWolfSpawnRegionsForCurrentScene] Disabling all regular wolves");
+            regularDisabled = DisableRegularWolfSpawnRegions();
         }
 
         if (Settings.instance.disableAllTimberWolves)
         {
-            DisableTimberWolfSpawnRegions();
+            //MelonLoader.MelonLogger.Msg("[WolfManager.HandleWolfSpawnRegionsForCurrentScene] Disabling all timber wolves");
+            timberDisabled = DisableTimberWolfSpawnRegions();
         }
 
         if (Settings.instance.disableAllStarvingWolves)
         {
-            DisableStarvingWolfSpawnRegions();
+            //MelonLoader.MelonLogger.Msg("[WolfManager.HandleWolfSpawnRegionsForCurrentScene] Disabling all starving wolves");
+            starvingDisabled = DisableStarvingWolfSpawnRegions();
         }
+
+        //MelonLoader.MelonLogger.Msg($"[WolfManager.HandleWolfSpawnRegionsForCurrentScene] Summary - Regular: {regularDisabled} disabled, Timber: {timberDisabled} disabled, Starving: {starvingDisabled} disabled");
     }
 
-    private static void DisableRegularWolfSpawnRegions()
+    private static int DisableRegularWolfSpawnRegions()
     {
         // Find all GameObjects containing "SPAWNREGION_Wolf" in their name
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        int disabledCount = 0;
+
+        //MelonLoader.MelonLogger.Msg($"[DisableRegularWolfSpawnRegions] Searching through {allObjects.Length} GameObjects");
 
         foreach (GameObject obj in allObjects)
         {
             if (obj.name.Contains("SPAWNREGION_Wolf") && !obj.name.Contains("SPAWNREGION_Timberwolf") && !obj.name.Contains("SPAWNREGION_WolfStarving"))
             {
-                obj.SetActive(false);
-                MelonLoader.MelonLogger.Msg($"Disabled regular wolf spawn region: {obj.name}");
+                bool wasActive = obj.activeSelf;
+                RegionStateKeeper.DisableObject(obj);
+                disabledCount++;
+                //MelonLoader.MelonLogger.Msg($"[DisableRegularWolfSpawnRegions] Disabled regular wolf spawn region: {obj.name} (Was Active: {wasActive})");
             }
         }
+
+        //MelonLoader.MelonLogger.Msg($"[DisableRegularWolfSpawnRegions] Total regular wolf regions disabled: {disabledCount}");
+        return disabledCount;
     }
 
-    private static void DisableTimberWolfSpawnRegions()
+    private static int DisableTimberWolfSpawnRegions()
     {
         // Find all GameObjects containing "SPAWNREGION_Timberwolf" in their name
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        int disabledCount = 0;
+
+        //MelonLoader.MelonLogger.Msg($"[DisableTimberWolfSpawnRegions] Searching through {allObjects.Length} GameObjects");
 
         foreach (GameObject obj in allObjects)
         {
             if (obj.name.Contains("SPAWNREGION_Timberwolf"))
             {
-                obj.SetActive(false);
-                MelonLoader.MelonLogger.Msg($"Disabled timberwolf spawn region: {obj.name}");
+                bool wasActive = obj.activeSelf;
+                RegionStateKeeper.DisableObject(obj);
+                disabledCount++;
+                //MelonLoader.MelonLogger.Msg($"[DisableTimberWolfSpawnRegions] Disabled timberwolf spawn region: {obj.name} (Was Active: {wasActive})");
             }
         }
+
+        //MelonLoader.MelonLogger.Msg($"[DisableTimberWolfSpawnRegions] Total timberwolf regions disabled: {disabledCount}");
+        return disabledCount;
     }
 
-    private static void DisableStarvingWolfSpawnRegions()
+    private static int DisableStarvingWolfSpawnRegions()
     {
         // Find all GameObjects containing "SPAWNREGION_WolfStarving" in their name
         GameObject[] allObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        int disabledCount = 0;
+
+        //MelonLoader.MelonLogger.Msg($"[DisableStarvingWolfSpawnRegions] Searching through {allObjects.Length} GameObjects");
 
         foreach (GameObject obj in allObjects)
         {
             if (obj.name.Contains("SPAWNREGION_WolfStarving"))
             {
-                obj.SetActive(false);
-                MelonLoader.MelonLogger.Msg($"Disabled starving wolf spawn region: {obj.name}");
+                bool wasActive = obj.activeSelf;
+                RegionStateKeeper.DisableObject(obj);
+                disabledCount++;
+                //MelonLoader.MelonLogger.Msg($"[DisableStarvingWolfSpawnRegions] Disabled starving wolf spawn region: {obj.name} (Was Active: {wasActive})");
             }
         }
+
+        //MelonLoader.MelonLogger.Msg($"[DisableStarvingWolfSpawnRegions] Total starving wolf regions disabled: {disabledCount}");
+        return disabledCount;
     }
 
-    private static void SetWolfType(SpawnRegion spawnRegion, SpawnType spawnType)
+    private static void SetWolfType(SpawnRegion spawnRegion, WolfSpawnType spawnType)
     {
+        //MelonLoader.MelonLogger.Msg($"[SetWolfType] Setting wolf type to {spawnType} for region: {spawnRegion.gameObject.name}");
+
         switch (spawnType)
         {
-            case SpawnType.RegularWolves:
+            case WolfSpawnType.RegularWolves:
                 MakeRegularWolves(spawnRegion);
                 break;
-            case SpawnType.Timberwolves:
+            case WolfSpawnType.Timberwolves:
                 MakeTimberwolves(spawnRegion);
                 break;
-            case SpawnType.PoisonWolves:
-                MakePoisonWolves(spawnRegion);
+            case WolfSpawnType.StarvingWolves:
+                MakeStarvingWolves(spawnRegion);
                 break;
-            case SpawnType.Random:
+            case WolfSpawnType.AuroraRegularWolves:
+                MakeAuroraRegularWolves(spawnRegion);
+                break;
+            case WolfSpawnType.AuroraTimberwolves:
+                MakeAuroraTimberwolves(spawnRegion);
+                break;
+            case WolfSpawnType.AuroraStarvingWolves:
+                MakeAuroraStarvingWolves(spawnRegion);
+                break;
+            case WolfSpawnType.Random:
                 MakeRandomWolves(spawnRegion);
                 break;
-            case SpawnType.None:
-                // Disable the GameObject containing this spawn region
-                spawnRegion.gameObject.SetActive(false);
+            case WolfSpawnType.None:
+                //MelonLoader.MelonLogger.Msg($"[SetWolfType] Disabling spawn region: {spawnRegion.gameObject.name}");
+                RegionStateKeeper.Disable(spawnRegion);
+                break;
+            case WolfSpawnType.Default:
+                //MelonLoader.MelonLogger.Msg($"[SetWolfType] Using default wolf type for region: {spawnRegion.gameObject.name}");
                 break;
         }
     }
 
     private static void MakeTimberwolves(SpawnRegion spawnRegion)
     {
-        GameObject? timberwolf = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Wolf_grey").WaitForCompletion();
-        GameObject? timberwolf_aurora = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Wolf_grey_aurora").WaitForCompletion();
-        if (timberwolf && timberwolf_aurora && spawnRegion.m_SpawnablePrefab.name != timberwolf.name)
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.Timberwolf, AnimalRefs.TimberwolfAurora, "timberwolves"))
         {
-            spawnRegion.m_AuroraSpawnablePrefab = timberwolf_aurora;
-            spawnRegion.m_SpawnablePrefab = timberwolf;
             AdjustTimberwolfPackSize(spawnRegion);
+            //MelonLoader.MelonLogger.Msg($"[MakeTimberwolves] Changed {spawnRegion.gameObject.name} to timberwolves");
         }
     }
 
     private static void MakeRegularWolves(SpawnRegion spawnRegion)
     {
-        GameObject? regularWolf = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Wolf").WaitForCompletion();
-        GameObject? regularWolf_aurora = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Wolf_aurora").WaitForCompletion();
-        if (regularWolf && regularWolf_aurora && spawnRegion.m_SpawnablePrefab.name != regularWolf.name)
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.Wolf, AnimalRefs.WolfAurora, "regular wolves"))
         {
-            spawnRegion.m_AuroraSpawnablePrefab = regularWolf_aurora;
-            spawnRegion.m_SpawnablePrefab = regularWolf;
+            //MelonLoader.MelonLogger.Msg($"[MakeRegularWolves] Changed {spawnRegion.gameObject.name} to regular wolves");
         }
     }
 
-    private static void MakePoisonWolves(SpawnRegion spawnRegion)
+    private static void MakeStarvingWolves(SpawnRegion spawnRegion)
     {
-        GameObject? poisonWolf = Addressables.LoadAssetAsync<GameObject>("WILDLIFE_Wolf_starving").WaitForCompletion();
-        if (poisonWolf && spawnRegion.m_SpawnablePrefab.name != poisonWolf.name)
+        // Starving wolves have their own aurora variant
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.WolfStarving, AnimalRefs.WolfStarvingAurora, "starving wolves"))
         {
-            spawnRegion.m_AuroraSpawnablePrefab = poisonWolf; // Use same for aurora
-            spawnRegion.m_SpawnablePrefab = poisonWolf;
+            //MelonLoader.MelonLogger.Msg($"[MakeStarvingWolves] Changed {spawnRegion.gameObject.name} to starving wolves");
+        }
+    }
+
+    private static void MakeAuroraTimberwolves(SpawnRegion spawnRegion)
+    {
+        // Use aurora timberwolves for both normal and aurora spawns
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.TimberwolfAurora, AnimalRefs.TimberwolfAurora, "aurora timberwolves"))
+        {
+            AdjustTimberwolfPackSize(spawnRegion);
+            //MelonLoader.MelonLogger.Msg($"[MakeAuroraTimberwolves] Changed {spawnRegion.gameObject.name} to aurora timberwolves");
+        }
+    }
+
+    private static void MakeAuroraRegularWolves(SpawnRegion spawnRegion)
+    {
+        // Use aurora regular wolves for both normal and aurora spawns
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.WolfAurora, AnimalRefs.WolfAurora, "aurora regular wolves"))
+        {
+            //MelonLoader.MelonLogger.Msg($"[MakeAuroraRegularWolves] Changed {spawnRegion.gameObject.name} to aurora regular wolves");
+        }
+    }
+
+    private static void MakeAuroraStarvingWolves(SpawnRegion spawnRegion)
+    {
+        // Aurora starving wolves use the aurora variant for both normal and aurora spawns
+        if (AnimalRefs.TrySetSpawn(spawnRegion, AnimalRefs.WolfStarvingAurora, AnimalRefs.WolfStarvingAurora, "aurora starving wolves"))
+        {
+            //MelonLoader.MelonLogger.Msg($"[MakeAuroraStarvingWolves] Changed {spawnRegion.gameObject.name} to aurora starving wolves");
         }
     }
 
     private static void MakeRandomWolves(SpawnRegion spawnRegion)
     {
-        if (Utils.RollChance(Settings.instance.regularWolfPercentage))
+        int regionId = spawnRegion.GetInstanceID();
+
+        if (!_randomRollCache.TryGetValue(regionId, out WolfSpawnType chosenType))
+        {
+            chosenType = Utils.RollChance(Settings.instance.regularWolfPercentage)
+                ? WolfSpawnType.RegularWolves
+                : WolfSpawnType.Timberwolves;
+            _randomRollCache[regionId] = chosenType;
+        }
+
+        if (chosenType == WolfSpawnType.RegularWolves)
         {
             MakeRegularWolves(spawnRegion);
+            //MelonLoader.MelonLogger.Msg($"[MakeRandomWolves] Randomly selected regular wolves for {spawnRegion.gameObject.name}");
         }
         else
         {
             MakeTimberwolves(spawnRegion);
+            //MelonLoader.MelonLogger.Msg($"[MakeRandomWolves] Randomly selected timberwolves for {spawnRegion.gameObject.name}");
         }
     }
 
@@ -224,10 +318,23 @@ internal static class WolfManager
         spawnRegion.m_MaxSimultaneousSpawnsNightPilgrim = NotOne(spawnRegion.m_MaxSimultaneousSpawnsNightPilgrim);
         spawnRegion.m_MaxSimultaneousSpawnsNightStalker = NotOne(spawnRegion.m_MaxSimultaneousSpawnsNightStalker);
         spawnRegion.m_MaxSimultaneousSpawnsNightVoyageur = NotOne(spawnRegion.m_MaxSimultaneousSpawnsNightVoyageur);
+        //MelonLoader.MelonLogger.Msg($"[AdjustTimberwolfPackSize] Adjusted pack sizes for timberwolves in {spawnRegion.gameObject.name}");
     }
 
     private static int NotOne(int num)
     {
         return num == 1 ? 2 : num;
+    }
+}
+
+internal static class Utils
+{
+    /// <summary>
+    /// Returns true with the given percent probability (0-100).
+    /// e.g. RollChance(75f) returns true ~75% of the time.
+    /// </summary>
+    internal static bool RollChance(float percentChance)
+    {
+        return UnityEngine.Random.Range(0f, 100f) < percentChance;
     }
 }

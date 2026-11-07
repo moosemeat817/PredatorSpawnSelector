@@ -375,6 +375,12 @@ internal sealed class Settings : JsonModSettings
     [Description("Disable Cougar Territory Near Blackrock Transition")]
     public bool disableTimberwolfMountain3 = false;
 
+    [Section("Diagnostics")]
+
+    [Name("Enable Diagnostic Logging")]
+    [Description("For troubleshooting only. Writes detailed spawn-region information to the MelonLoader log and to UserData/PSS_SpawnListDiagnostic.txt. Leave this off unless you are asked to turn it on.")]
+    public bool enableDiagnostics = false;
+
     // Constructor to initialize visibility
     public Settings()
     {
